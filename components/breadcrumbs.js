@@ -8,7 +8,7 @@
   return (
     Object.keys(pages).map((key,i)=>{
         return (
-          <li value={i.toString()}>
+          <li key={i.toString()}>
             {pages.length-1 == i ? <span>{pages[key]}</span> :<a href="#">{pages[key]}</a>}
           </li>
         )
