@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '../components/breadcrumbs';
-import Table from '../components/tabls';
+import Table from '../components/table';
 import Form from '../components/form';
 import ReactPaginate from 'react-paginate';
 import moment from 'moment'
 /* eslint-disable */
 const apiLink = 'https://run.mocky.io/v3/a2fbc23e-069e-4ba5-954c-cd910986f40f';
 const pages = ['Home', 'Administration', 'Logger search'];
-const headerCellTitle = ['User ID', 'Log ID', 'Application Type', 'Application ID', 'Action Type' ,'Action Details' , 'Source', 'IP', 'Date Time'];
+const headerCellTitle = ['User ID', 'Log ID', 'Application Type', 'Application ID', 'Action Type', 'Action Details', 'Source', 'IP', 'Date Time'];
 
 class Home extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class Home extends React.Component {
       currentPage: 1,
       items: 10,
     }
+    this.handelSort = this.handelSort.bind(this);
   }
 
 
@@ -31,7 +32,7 @@ class Home extends React.Component {
     return {
       show: data.result.auditLog,
       pages: pages,
-      headerCellTitle:headerCellTitle
+      headerCellTitle: headerCellTitle
     }
   }
 
@@ -41,29 +42,76 @@ class Home extends React.Component {
     });
   }
 
-  handelData = (obj)=>{
+  handelData = (obj) => {
     this.handelSearchLogger(obj);
   }
 
-  handelSearchLogger = (obj)=>{
+  handelSearchLogger = (obj) => {
     console.log(obj);
-    let res = this.props.show.filter((e,i)=>{
-    let fetchedDate = e.creationTimestamp.split(' ')[0];
-    let isBetween = moment(fetchedDate).isBetween(obj.fromDate, obj.toDate);
+    let res = this.props.show.filter((e, i) => {
+      let fetchedDate = e.creationTimestamp.split(' ')[0];
+      let isBetween = moment(fetchedDate).isBetween(obj.fromDate, obj.toDate);
 
-    console.log(obj.fromDate,' ',obj.toDate);
-    console.log(e.creationTimestamp.split(' ')[0]);
-    console.log("isBetween",isBetween,e)
+      console.log(obj.fromDate, ' ', obj.toDate);
+      console.log(e.creationTimestamp.split(' ')[0]);
+      console.log("isBetween", isBetween, e)
 
-     return e.applicationId == parseInt(obj.applicationId) && e.userId == obj.userId && e.actionType == obj.actionType && isBetween  ; 
+      return e.applicationId == parseInt(obj.applicationId) && e.userId == obj.userId && e.actionType == obj.actionType && isBetween;
     })
     this.setState({
-      data:res
+      data: res
     })
   }
 
-  handelReset(){
+  handelReset() {
     window.location.reload();
+  }
+
+  handelSortNumber(show, param) {
+    return show.sort((a, b) => (a[param] > b[param] ? 1 : -1))
+  }
+
+  handelSort({ title, isArrowUp }) {
+    const show = this.props.show;
+    const message = "No sort for Action Details, only on UserID,LogID,ApplicationType,ApplicationID,ActionType";
+    let res = [];
+    switch (title) {
+      case "User ID":
+        res = this.handelSortNumber(show, 'userId');
+        break;
+      case "Log ID":
+        res = this.handelSortNumber(show, 'logId');
+        break;
+      case "Application Type":
+        res = show.sort((a, b) => {
+          return a.applicationType ? a.applicationType.localeCompare(b.applicationType) : [];
+        });
+        break;
+      case "Application ID":
+        res = this.handelSortNumber(show, 'applicationId');
+        break;
+      case "Action Details":
+        alert(message);
+        return;
+      case "Source":
+        alert(message);
+        return;
+      case "IP":
+        alert(message);
+        return;
+      case "Date Time":
+        alert(message);
+        return;
+      case "Action Type":
+        res = show.sort((a, b) => {
+          return a.actionType ? a.actionType.localeCompare(b.actionType) : [];
+        });
+      default:
+        break;
+    }
+    this.setState({
+      data: res
+    });
   }
 
 
@@ -77,23 +125,24 @@ class Home extends React.Component {
       {/* END BREADCRUMBS SECTION */}
 
       {/* START FORM SECTION */}
-      <Form getData={this.handelData}/>
+      <Form getData={this.handelData} />
       {/* END FORM SECTION */}
 
       {/* START TABLE SECTION */}
-      <Table 
-      show={this.paginate(this.state.data, this.state.items, this.state.currentPage)}
-      titles={this.props.headerCellTitle}
-       />
+      <Table
+        show={this.paginate(this.state.data, this.state.items, this.state.currentPage)}
+        titles={this.props.headerCellTitle}
+        handelSort={this.handelSort}
+      />
       {/* END TABLE SECTION */}
 
       {/* START NO DATA MESSAGE */}
-      {this.state.data.length == 0 ? <div className="text-center"><div className="text-center mb-3 text-danger">No records found, please read the notes and how to use search logger.</div><button className="blue-btn mb-5" onClick={this.handelReset}>Reset fields</button></div>:''}
-      
+      {this.state.data.length == 0 ? <div className="text-center"><div className="text-center mb-3 text-danger">No records found, please read the notes and how to use search logger.</div><button className="blue-btn mb-5" onClick={this.handelReset}>Reset fields</button></div> : ''}
+
       {/* END NO DATA MESSAGE */}
 
       {/* START PAGINATE SECTION */}
-      {this.state.data.length != 0 ? <Paginate size={this.state.data.length / this.state.items} handelPaginateChange={this.handelPaginate} />:''}
+      {this.state.data.length != 0 ? <Paginate size={this.state.data.length / this.state.items} handelPaginateChange={this.handelPaginate} /> : ''}
       {/* END PAGINATE SECTION */}
 
       {/* START MORE INFORMATION */}
@@ -106,8 +155,8 @@ class Home extends React.Component {
         </ul>
       </div>
       <div className='alert alert-success'>
-      <h2>How to use search logger?</h2>
-        <p className="mb-0">To find a record please fill the bellow data to the fields: </p> 
+        <h2>How to use search logger?</h2>
+        <p className="mb-0">To find a record please fill the bellow data to the fields: </p>
         <ul>
           <li>"userId": 15497</li>
           <li>"actionType": "INITIATE_APPLICATION"</li>

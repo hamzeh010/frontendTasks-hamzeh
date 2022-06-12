@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
 const Table = (props) => {
+    let [value, setValue] = useState(false);
+
+    const handleArrowClick = title => {
+      setValue(!value)
+      props.handelSort({isArrowUp:!value,title:title});
+    };
+
+    
     return (
         <table className="table">
             <thead>
                 <tr>
                     {props.titles.map((title, index) =>
-                        <th key={index}>{title} <span className='icon-circle-up'></span></th>
+                        <th onClick={() => handleArrowClick(title)} key={index}>{title} <span className={value ? 'icon-circle-up':'icon-circle-down'}></span>{!!value}</th>
                     )}
                 </tr>
             </thead>
