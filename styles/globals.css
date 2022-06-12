@@ -1,16 +1,138 @@
-html,
+@import "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css";
+@import "./table.css";
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background: #fefeff;
 }
 
-a {
-  color: inherit;
+.pagenation {
+  display: flex;
+  margin: auto;
+  width: 30%;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 0 4px 0 #d8d8d88a;
+  border-radius: 3px;
+}
+
+th {
+  font-size: 14px;
+  font-weight: 100;
+}
+
+td {
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.m-auto {
+  margin: auto;
+  width: 84.4%;
+}
+
+
+.breadcrumbs {
+  font-size: 0.85em;
+  color: #ccc;
+  line-height: 1.5;
+  margin: 18px;
+  padding-left: 0;
+  margin: 20px 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page-link {
+  color: #595c5f !important;
+}
+
+.page-item.active a {
+  background: #ecf0f7 !important;
+  border-color: #ecf0f7 !important;
+}
+
+.breadcrumbs li {
+  display: inline;
+  list-style-type: none;
+  margin-left: 0;
+  color: gray;
+}
+
+.breadcrumbs li:before {
+  content: ">";
+  padding-right: 5px;
+  padding-left: 5px;
+  color: gray;
+}
+
+.breadcrumbs a {
+  color: #4770b1;
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+.breadcrumbs li:first-child:before {
+  content: "";
+  padding-right: 0;
+}
+
+.page-item .page-link {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.page-item.active .page-link {
+  border-radius: 5px !important;
+  font-weight: bold;
+}
+
+.page-item .page-link:hover {
+  border-radius: 5px !important;
+}
+
+.d-block {
+  display: block;
+}
+
+.blue-btn {
+  height: 30px;
+  margin-top: auto;
+  background: #0f499b;
+  color: #fff;
+  border: 0;
+  padding: 0px 60px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  font-size: 12px;
+  height: 30px;
+  border-radius: 4px;
+  border-color: #ededed;
+  border: 1px solid #ededed;
+  padding: 0px 10px;
+}
+
+.form-group:first-child {
+  margin-left: 0 !important;
+}
+
+.form-group {
+  margin-left: 10px;
+  width: 100%;
+}
+
+label {
+  font-size: 12px;
 }
