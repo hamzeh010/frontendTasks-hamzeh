@@ -7,6 +7,7 @@ import moment from 'moment'
 /* eslint-disable */
 const apiLink = 'https://run.mocky.io/v3/a2fbc23e-069e-4ba5-954c-cd910986f40f';
 const pages = ['Home', 'Administration', 'Logger search'];
+const headerCellTitle = ['User ID', 'Log ID', 'Application Type', 'Application ID', 'Action Type' ,'Action Details' , 'Source', 'IP', 'Date Time'];
 
 class Home extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Home extends React.Component {
     this.state = {
       data: this.props.show || [],
       currentPage: 1,
-      items: 10
+      items: 10,
     }
   }
 
@@ -29,7 +30,8 @@ class Home extends React.Component {
     this.state = data;
     return {
       show: data.result.auditLog,
-      pages: pages
+      pages: pages,
+      headerCellTitle:headerCellTitle
     }
   }
 
@@ -79,7 +81,10 @@ class Home extends React.Component {
       {/* END FORM SECTION */}
 
       {/* START TABLE SECTION */}
-      <Table show={this.paginate(this.state.data, this.state.items, this.state.currentPage)} />
+      <Table 
+      show={this.paginate(this.state.data, this.state.items, this.state.currentPage)}
+      titles={this.props.headerCellTitle}
+       />
       {/* END TABLE SECTION */}
 
       {/* START NO DATA MESSAGE */}

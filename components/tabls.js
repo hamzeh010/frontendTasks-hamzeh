@@ -1,18 +1,12 @@
-import React, { useState,useEffect } from 'react';
+import React from 'react';
 const Table = (props) => {
     return (
         <table className="table">
             <thead>
                 <tr>
-                    <th>User ID</th>
-                    <th>Log ID</th>
-                    <th>Application Type</th>
-                    <th>Application ID</th>
-                    <th>Action Type</th>
-                    <th>Action Details</th>
-                    <th>Source</th>
-                    <th>IP</th>
-                    <th>Date Time</th>
+                    {props.titles.map((title, index) =>
+                        <th key={index}>{title} <span className='icon-circle-up'></span></th>
+                    )}
                 </tr>
             </thead>
             <tbody>

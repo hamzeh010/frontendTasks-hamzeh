@@ -5,15 +5,27 @@ body {
   background: #fefeff;
 }
 
+/* start pagenation css */
+
 .pagenation {
   display: flex;
   margin: auto;
   width: 30%;
 }
 
-button {
-  margin-top: 10px;
+.page-link {
+  color: #595c5f !important;
 }
+
+.page-item.active a {
+  background: #ecf0f7 !important;
+  border-color: #ecf0f7 !important;
+}
+
+
+/* end pagenation css */
+
+/* start table css */
 
 .table {
   font-family: arial, sans-serif;
@@ -34,6 +46,8 @@ td {
   font-size: 12px;
 }
 
+/* start table css */
+
 .m-auto {
   margin: auto;
   width: 84.4%;
@@ -41,6 +55,7 @@ td {
 }
 
 
+/* start breadcrumbs css */
 .breadcrumbs {
   font-size: 0.85em;
   color: #ccc;
@@ -51,14 +66,6 @@ td {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.page-link {
-  color: #595c5f !important;
-}
-
-.page-item.active a {
-  background: #ecf0f7 !important;
-  border-color: #ecf0f7 !important;
-}
 
 .breadcrumbs li {
   display: inline;
@@ -84,6 +91,8 @@ td {
   padding-right: 0;
 }
 
+/* end breadcrumbs css */
+
 .page-item .page-link {
   border: 0 !important;
   box-shadow: none !important;
@@ -92,12 +101,15 @@ td {
 .page-item.active .page-link {
   border-radius: 5px !important;
   font-weight: bold;
+  
 }
 
 .page-item .page-link:hover {
   border-radius: 5px !important;
 }
 
+
+/* start common classes */
 .d-block {
   display: block;
 }
@@ -112,6 +124,9 @@ td {
   border-radius: 4px;
   margin-left: 10px;
   font-size: 12px;
+}
+.blue-btn:hover{
+  background: #0c3876;
 }
 
 .form-group input,
@@ -136,4 +151,46 @@ td {
 
 label {
   font-size: 12px;
+}
+/* end common classes */
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?d2na1s');
+  src:  url('fonts/icomoon.eot?d2na1s#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?d2na1s') format('truetype'),
+    url('fonts/icomoon.woff?d2na1s') format('woff'),
+    url('fonts/icomoon.svg?d2na1s#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-circle-up:before {
+  content: "\ea41";
+}
+.icon-circle-down:before {
+  content: "\ea43";
+}
+.icon-circle-up, .icon-circle-down{
+  color: #cdc9c9;
+  cursor: pointer;
+}
+.icon-circle-up:hover, .icon-circle-down:hover{
+  color: #0f499b;
 }
