@@ -4,12 +4,10 @@ import Table from '../components/tabls';
 import Form from '../components/form';
 import ReactPaginate from 'react-paginate';
 import moment from 'moment'
-
-
-
+/* eslint-disable */
 const apiLink = 'https://run.mocky.io/v3/a2fbc23e-069e-4ba5-954c-cd910986f40f';
 const pages = ['Home', 'Administration', 'Logger search'];
-/* eslint-disable */
+
 class Home extends React.Component {
   constructor(props) {
     super(props)
@@ -48,14 +46,14 @@ class Home extends React.Component {
   handelSearchLogger = (obj)=>{
     console.log(obj);
     let res = this.props.show.filter((e,i)=>{
-      let fetchedDate = e.creationTimestamp.split(' ')[0];
-      let isBetween = moment(fetchedDate).isBetween(obj.fromDate, obj.toDate);
+    let fetchedDate = e.creationTimestamp.split(' ')[0];
+    let isBetween = moment(fetchedDate).isBetween(obj.fromDate, obj.toDate);
 
-      console.log(obj.fromDate,' ',obj.toDate);
-      console.log(e.creationTimestamp.split(' ')[0]);
-      console.log("isBetween",isBetween,e)
+    console.log(obj.fromDate,' ',obj.toDate);
+    console.log(e.creationTimestamp.split(' ')[0]);
+    console.log("isBetween",isBetween,e)
 
-     return e.applicationId == parseInt(obj.applicationId) && e.userId == obj.userId && e.actionType && obj.actionType  ; 
+     return e.applicationId == parseInt(obj.applicationId) && e.userId == obj.userId && e.actionType == obj.actionType && isBetween  ; 
     })
     this.setState({
       data:res
