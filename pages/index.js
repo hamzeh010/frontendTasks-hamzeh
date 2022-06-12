@@ -71,7 +71,7 @@ class Home extends React.Component {
     return show.sort((a, b) => (a[param] > b[param] ? 1 : -1))
   }
 
-  handelSort({ title, isArrowUp }) {
+  handelSort({ title }) {
     const show = this.props.show;
     const message = "No sort for Action Details, only on UserID,LogID,ApplicationType,ApplicationID,ActionType";
     let res = [];
