@@ -37,6 +37,7 @@ td {
 .m-auto {
   margin: auto;
   width: 84.4%;
+  min-width: 1200px;
 }
 
 
