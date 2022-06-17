@@ -64,10 +64,7 @@ class Home extends React.Component {
   }
 
   handelReset(){
-    console.log()
-    this.setState(
-      {data:this.props.orginalData}
-    )
+    this.setState({data:this.props.orginalData});
   }
 
   handelSearchLogger = (submitedData) => {
