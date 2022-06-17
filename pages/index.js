@@ -35,7 +35,8 @@ class Home extends React.Component {
     return {
       show: data.result.auditLog,
       pages: pages,
-      headerCellTitle: headerCellTitle
+      headerCellTitle: headerCellTitle,
+      orginalData:data.result.auditLog
     }
   }
 
@@ -65,10 +66,8 @@ class Home extends React.Component {
   handelReset(){
     console.log()
     this.setState(
-      {data:this.props.show}
+      {data:this.props.orginalData}
     )
-
-
   }
 
   handelSearchLogger = (submitedData) => {
