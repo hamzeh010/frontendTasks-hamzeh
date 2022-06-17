@@ -32,7 +32,7 @@ class Form extends React.Component {
         event.preventDefault();
         this.props.getData(this.state);
     }
-    handelReload(event) {
+    handelReload() {
         this.props.resetData();
     }
 
