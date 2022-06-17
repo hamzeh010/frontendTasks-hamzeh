@@ -120,10 +120,12 @@ td {
   background: #0f499b;
   color: #fff;
   border: 0;
-  padding: 0px 60px;
   border-radius: 4px;
   margin-left: 10px;
   font-size: 12px;
+  width: 100%;
+  text-align: center;
+  max-width: 130px;
 }
 .blue-btn:hover{
   background: #0c3876;

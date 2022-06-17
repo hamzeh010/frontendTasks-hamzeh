@@ -22,10 +22,10 @@ const Table = (props) => {
                 {props.show.map((show, index) => (
                     <tr key={show.logId}>
                         <td>{show.userId ? show.userId : '-'}</td>
-                        <td>{show.logId}</td>
-                        <td>{show.applicationType ? show.applicationType : '-'}</td>
-                        <td>{show.applicationId ? show.applicationId : '-'}</td>
                         <td>{show.actionType ? show.actionType : '-'}</td>
+                        <td>{show.applicationType ? show.applicationType : '-'}</td>
+                        <td>{show.logId}</td>
+                        <td>{show.applicationId ? show.applicationId : '-'}</td>
                         <td>-</td>
                         <td>{show.source ? show.source : '-'}</td>
                         <td>{show.ip ? show.ip : '-'}</td>

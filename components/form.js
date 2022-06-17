@@ -5,14 +5,12 @@ class Form extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            userId:'',
-            actionType: '',
-            applicationType:'',
-            fromDate:'',
-            toDate:'',
-            applicationId:''
+            userId:null,
+            actionType:null,
+            applicationType:null,
+            toDate:null,
+            fromDate:null
         };
-    
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
@@ -20,22 +18,22 @@ class Form extends React.Component{
 
       handleChange(event, param) {
         let formData = {};
-        formData[param] = event.target.value;
+        
+        if(param == 'userId'){
+            formData[param] = parseInt(event.target.value) || null;
+        }else{
+            formData[param] = event.target.value || null;
+        }
+        
         this.setState(formData);
-        console.log(param,event.target.value)
       }
 
       handleSubmit(event) {
         event.preventDefault();
-        let isNotEmpty = false;
-        isNotEmpty = Object.values(this.state).every(x => (x != ''));
-        if(isNotEmpty){
-            this.props.getData(this.state);
-        }else{
-            alert('Please fill all the fields!')
-        }
-       
-        
+        this.props.getData(this.state);
+      }
+      handelReload(){
+          window.location.reload();
       }
 
     render() {
@@ -49,7 +47,7 @@ class Form extends React.Component{
                 type="text"
                 name="userId"
                 onChange={event => this.handleChange(event,'userId')}
-                required
+                
                 placeholder="eg. 91030" 
                 />
             </div>
@@ -60,11 +58,13 @@ class Form extends React.Component{
                 <select 
                 name="actionType" 
                 onChange={event => this.handleChange(event,'actionType')} 
-                required
+                
                 >
-                    <option value="none" defaultValue="none"></option>
-                    <option value="DARI_REFRESH_TOKEN">DARI_REFRESH_TOKEN</option>
+                    <option value="null" defaultValue="null"></option>
+                    <option value="ADD_EMPLOYEE">ADD_EMPLOYEE</option>
                     <option value="INITIATE_APPLICATION">INITIATE_APPLICATION</option>
+                    <option value="SUBMIT_APPLICATION">SUBMIT_APPLICATION</option>
+                    <option value="DARI_REFRESH_TOKEN">DARI_REFRESH_TOKEN</option>
                 </select>
             </div>
             <div className="form-group">
@@ -74,24 +74,24 @@ class Form extends React.Component{
                 <select 
                 name="applicationType"
                 onChange={event => this.handleChange(event,'applicationType')}
-                required
+                
                 >
-                    <option value="none" defaultValue="none" ></option>
-                    <option value="ADD_COMPANY">ADD_COMPANY</option>
+                    <option value="null" defaultValue="null"></option>
                     <option value="ADD_COMPANY_EMPLOYEE">ADD_COMPANY_EMPLOYEE</option>
                     <option value="ADD_POA">ADD_POA</option>
+                    <option value="LEASE_REGISTRATION">LEASE_REGISTRATION</option>
+                    <option value="CERT_TITLE_DEED_PLOT">CERT_TITLE_DEED_PLOT</option>
                 </select>
             </div>
             <div className="form-group">
                 <label className="d-block">
-                    Form Date
+                    From Date
                 </label>
                 <input 
                 type="date"
                 name="fromDate"
-                data-date-format="DD MMMM YYYY"
                 onChange={event => this.handleChange(event,'fromDate')}
-                required />
+                 />
             </div>
             <div className="form-group">
                 <label className="d-block">
@@ -101,7 +101,7 @@ class Form extends React.Component{
                 type="date" 
                 name="to"
                 onChange={event => this.handleChange(event,'toDate')}
-                required />
+                 />
             </div>
             <div className="form-group">
                 <label className="d-block">
@@ -112,10 +112,11 @@ class Form extends React.Component{
                 name="applicationId"
                 onChange={event => this.handleChange(event,'applicationId')}
                 placeholder="e.g. 219841/2021"
-                required/>
+                />
             </div>
             
-            <input className="blue-btn ml-4" type="submit" value="Search Logger" />
+            <input className="blue-btn" type="submit" value="Search Logger" />
+            <input className="blue-btn" onClick={this.handelReload} type="reset" value="Clear"/>
         </form>
         );
       }

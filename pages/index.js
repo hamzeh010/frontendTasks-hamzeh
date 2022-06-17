@@ -7,7 +7,7 @@ import moment from 'moment'
 /* eslint-disable */
 const apiLink = 'https://run.mocky.io/v3/a2fbc23e-069e-4ba5-954c-cd910986f40f';
 const pages = ['Home', 'Administration', 'Logger search'];
-const headerCellTitle = ['User ID', 'Log ID', 'Application Type', 'Application ID', 'Action Type', 'Action Details', 'Source', 'IP', 'Date Time'];
+const headerCellTitle = ['User ID', 'Action Type', 'Application Type', 'Log ID', 'Application ID', 'Action Details', 'Source', 'IP', 'Date Time'];
 
 class Home extends React.Component {
   constructor(props) {
@@ -16,6 +16,8 @@ class Home extends React.Component {
       data: this.props.show || [],
       currentPage: 1,
       items: 10,
+      filtered: []
+
     }
     this.handelSort = this.handelSort.bind(this);
   }
@@ -45,26 +47,80 @@ class Home extends React.Component {
   handelData = (obj) => {
     this.handelSearchLogger(obj);
   }
+  // let fetchedDate = inputObject.creationTimestamp.split(' ')[0];
+  // let isBetween = moment(fetchedDate).isBetween(obj.fromDate, obj.toDate);
 
-  handelSearchLogger = (obj) => {
-    console.log(obj);
-    let res = this.props.show.filter((e, i) => {
-      let fetchedDate = e.creationTimestamp.split(' ')[0];
-      let isBetween = moment(fetchedDate).isBetween(obj.fromDate, obj.toDate);
-
-      console.log(obj.fromDate, ' ', obj.toDate);
-      console.log(e.creationTimestamp.split(' ')[0]);
-      console.log("isBetween", isBetween, e)
-
-      return e.applicationId == parseInt(obj.applicationId) && e.userId == obj.userId && e.actionType == obj.actionType && isBetween;
-    })
-    this.setState({
-      data: res
-    })
+  removeEmpty(obj) {
+    return Object.keys(obj)
+      .filter(function (k) {
+        return obj[k] != null;
+      })
+      .reduce(function (acc, k) {
+        acc[k] = obj[k];
+        return acc;
+      }, {});
   }
 
-  handelReset() {
-    window.location.reload();
+  handelSearchLogger = (submitedData) => {
+
+    let inputsArray = [];
+    let result = null;
+    let resultWithDate = null;
+    let filtered = [];
+    let creationTimestamp = "";
+
+    result = this.removeEmpty(submitedData);
+    resultWithDate = this.removeEmpty(submitedData);
+
+    for (const key in result) {
+      if (Object.hasOwnProperty.call(result, key)) {
+        const ele = result[key];
+        if (key == 'fromDate' || key == 'toDate') {
+          moment(ele).format("YYYY-MM-DD");
+        }
+      }
+    }
+
+    inputsArray.push(result);
+
+    filtered = this.props.show.filter(function (i) {
+      creationTimestamp = i.creationTimestamp.toString().split(' ')[0];
+      i.creationTimestamp = i.creationTimestamp != null ? creationTimestamp : null;
+
+      if (resultWithDate.fromDate && resultWithDate.toDate) {
+        i.isBetween = moment(i.creationTimestamp).isBetween(resultWithDate.fromDate, resultWithDate.toDate, undefined, '[)');
+      }
+
+      return inputsArray.some(function (j) {
+        delete j['fromDate'];
+        delete j['toDate'];
+        return !Object.keys(j).some(function (prop) {
+          return i[prop] != j[prop]
+
+        });
+      });
+    });
+
+    if (resultWithDate.fromDate && resultWithDate.toDate) {
+      filtered = filtered.filter(e => {
+        return e.isBetween
+      });
+
+    }
+
+    this.setState({
+      data: filtered
+    });
+  }
+
+  uniq(array, field) {
+    return array.reduce((accumulator, current) => {
+      if (!accumulator.includes(current[field])) {
+        accumulator.push(current[field])
+      }
+      return accumulator;
+    }, []
+    )
   }
 
   handelSortNumber(show, param) {
@@ -137,7 +193,7 @@ class Home extends React.Component {
       {/* END TABLE SECTION */}
 
       {/* START NO DATA MESSAGE */}
-      {this.state.data.length == 0 ? <div className="text-center"><div className="text-center mb-3 text-danger">No records found, please read the notes and how to use search logger.</div><button className="blue-btn mb-5" onClick={this.handelReset}>Reset fields</button></div> : ''}
+      {this.state.data.length == 0 ? <div className="text-center"><div className="text-center mb-3 text-danger">No records found, please read the notes and how to use search logger.</div></div> : ''}
 
       {/* END NO DATA MESSAGE */}
 
@@ -150,28 +206,6 @@ class Home extends React.Component {
         <h2>Notes:</h2>
         <ul>
           <li className="mb-0">Please note that there is no (Employee Name) in the API response so I will use userId instead.</li>
-          <li className="mb-0">All the search fields are required.</li>
-          <li className="mb-0">Reload the page to reset the table.</li>
-        </ul>
-      </div>
-      <div className='alert alert-success'>
-        <h2>How to use search logger?</h2>
-        <p className="mb-0">To find a record please fill the bellow data to the fields: </p>
-        <ul>
-          <li>"userId": 15497</li>
-          <li>"actionType": "INITIATE_APPLICATION"</li>
-          <li>"applicationType": "ADD_POA"</li>
-          <li>"From date": "09-12-2021"</li>
-          <li>"To date": "12-6-2022"</li>
-          <li>"ApplicationId": 726278576002607</li>
-        </ul>
-        <ul>
-          <li>"userId": 1052</li>
-          <li>"actionType": "INITIATE_APPLICATION"</li>
-          <li>"applicationType": "ADD_POA"</li>
-          <li>"From date": "09-12-2021"</li>
-          <li>"To date": "12-6-2022"</li>
-          <li>"ApplicationId": 144170790324169</li>
         </ul>
       </div>
       {/* END MORE INFORMATION */}
