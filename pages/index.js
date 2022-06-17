@@ -17,9 +17,10 @@ class Home extends React.Component {
       currentPage: 1,
       items: 10,
       filtered: []
-
     }
+
     this.handelSort = this.handelSort.bind(this);
+    this.handelReset = this.handelReset.bind(this);
   }
 
 
@@ -59,6 +60,15 @@ class Home extends React.Component {
         acc[k] = obj[k];
         return acc;
       }, {});
+  }
+
+  handelReset(){
+    console.log()
+    this.setState(
+      {data:this.props.show}
+    )
+
+
   }
 
   handelSearchLogger = (submitedData) => {
@@ -113,15 +123,6 @@ class Home extends React.Component {
     });
   }
 
-  uniq(array, field) {
-    return array.reduce((accumulator, current) => {
-      if (!accumulator.includes(current[field])) {
-        accumulator.push(current[field])
-      }
-      return accumulator;
-    }, []
-    )
-  }
 
   handelSortNumber(show, param) {
     return show.sort((a, b) => (a[param] > b[param] ? 1 : -1))
@@ -181,7 +182,7 @@ class Home extends React.Component {
       {/* END BREADCRUMBS SECTION */}
 
       {/* START FORM SECTION */}
-      <Form getData={this.handelData} />
+      <Form resetData={this.handelReset} getData={this.handelData} />
       {/* END FORM SECTION */}
 
       {/* START TABLE SECTION */}
